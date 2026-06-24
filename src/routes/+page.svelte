@@ -13,6 +13,7 @@
 	let items = $state<ImageItem[]>([]);
 	let isConverting = $state(false);
 	let pdfUrl = $state<string | null>(null);
+	let selectedImage = $state<string | null>(null);
 	let fileInput: HTMLInputElement;
 	
 	const flipDurationMs = 200;
@@ -50,6 +51,14 @@
 
 	function removeItem(id: string) {
 		items = items.filter(i => i.id !== id);
+	}
+	
+	function openImage(url: string) {
+		selectedImage = url;
+	}
+	
+	function closeImage() {
+		selectedImage = null;
 	}
 	
 	async function generatePDF() {
@@ -152,11 +161,16 @@
 					{#each items as item (item.id)}
 						<div class="relative group bg-neutral-800 rounded-xl overflow-hidden aspect-[3/4] border border-neutral-700 shadow-lg" animate:flip={{duration: flipDurationMs}}>
 							<img src={item.previewUrl} alt="preview" class="w-full h-full object-cover" />
-							<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-between p-3">
+							<!-- svelte-ignore a11y_click_events_have_key_events -->
+							<!-- svelte-ignore a11y_no_static_element_interactions -->
+							<div 
+								class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-between p-3 cursor-pointer"
+								onclick={() => openImage(item.previewUrl)}
+							>
 								<div class="flex justify-end">
 									<button 
 										class="p-2 bg-red-500/80 hover:bg-red-500 rounded-full text-white transition-colors transform hover:scale-110 active:scale-95 shadow-lg"
-										on:click={() => removeItem(item.id)}
+										onclick={(e) => { e.stopPropagation(); removeItem(item.id); }}
 										aria-label="삭제"
 									>
 										<Trash2 class="w-4 h-4" />
@@ -207,3 +221,27 @@
 		{/if}
 	</div>
 </div>
+
+{#if selectedImage}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<div 
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 md:p-12 backdrop-blur-sm transition-opacity"
+		onclick={closeImage}
+		role="dialog"
+	>
+		<img 
+			src={selectedImage} 
+			alt="Enlarged preview" 
+			class="max-w-full max-h-full object-contain rounded-xl shadow-2xl" 
+			onclick={(e) => e.stopPropagation()} 
+		/>
+		<button 
+			class="absolute top-4 right-4 md:top-8 md:right-8 p-3 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all transform hover:scale-110"
+			onclick={closeImage}
+			aria-label="닫기"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+		</button>
+	</div>
+{/if}
