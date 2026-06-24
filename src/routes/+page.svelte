@@ -123,16 +123,16 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div 
 			class="border-2 border-dashed border-neutral-700 hover:border-blue-500 rounded-3xl p-12 text-center transition-all bg-neutral-900/50 hover:bg-neutral-800/50 backdrop-blur-sm cursor-pointer mb-12 shadow-xl"
-			on:dragover|preventDefault
-			on:drop={handleDropAreaDrop}
-			on:click={() => fileInput.click()}
+			ondragover={(e) => e.preventDefault()}
+			ondrop={handleDropAreaDrop}
+			onclick={() => fileInput.click()}
 		>
 			<input 
 				type="file" 
 				multiple 
 				accept="image/png, image/jpeg, image/jpg" 
 				class="hidden" 
-				on:change={handleFilesSelect}
+				onchange={handleFilesSelect}
 				bind:this={fileInput}
 			/>
 			<div class="bg-blue-500/10 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -149,13 +149,13 @@
 						선택된 이미지 
 						<span class="bg-blue-500/20 text-blue-400 text-sm px-3 py-1 rounded-full">{items.length}</span>
 					</h2>
-					<button class="text-sm text-red-400 hover:text-red-300 transition-colors font-medium hover:bg-red-400/10 px-4 py-2 rounded-lg" on:click={() => items = []}>전체 삭제</button>
+					<button class="text-sm text-red-400 hover:text-red-300 transition-colors font-medium hover:bg-red-400/10 px-4 py-2 rounded-lg" onclick={() => items = []}>전체 삭제</button>
 				</div>
 				
 				<section 
 					use:dndzone={{items, flipDurationMs, dropTargetStyle: {outline: '2px solid #3b82f6', borderRadius: '0.75rem'}}} 
-					on:consider={handleDndConsider} 
-					on:finalize={handleDndFinalize}
+					onconsider={handleDndConsider} 
+					onfinalize={handleDndFinalize}
 					class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 min-h-[120px]"
 				>
 					{#each items as item (item.id)}
@@ -204,14 +204,14 @@
 						PDF 다운로드
 					</a>
 					<button 
-						on:click={() => pdfUrl = null} 
+						onclick={() => pdfUrl = null} 
 						class="text-neutral-400 hover:text-white mt-2 underline underline-offset-4 text-sm transition-colors"
 					>
 						새로운 파일로 다시 만들기
 					</button>
 				{:else}
 					<button 
-						on:click={generatePDF} 
+						onclick={generatePDF} 
 						class="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white px-10 py-5 rounded-2xl font-bold text-xl w-full md:w-auto justify-center shadow-xl shadow-blue-500/20 transition-all transform hover:-translate-y-1 hover:shadow-blue-500/30 active:scale-95"
 					>
 						PDF 만들기
