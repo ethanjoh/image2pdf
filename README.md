@@ -1,4 +1,5 @@
-[![GitHub 릴리스](https://img.shields.io/github/v/release/ethanjoh/image2pdf)](https://github.com/ethanjoh/image2pdf/releases)
+![GitHub Release](https://img.shields.io/github/v/release/ethanjoh/image2pdf)
+
 
 # Image to PDF (Client-Side Web Application)
 
