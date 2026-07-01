@@ -1,3 +1,6 @@
+![GitHub Release](https://img.shields.io/github/v/release/ethanjoh/image2pdf)
+
+
 # Image to PDF (Client-Side Web Application)
 
 이 프로젝트는 사용자가 여러 이미지를 드래그 앤 드롭으로 업로드하고 순서를 변경하여 하나의 PDF 파일로 병합할 수 있는 SvelteKit 기반 웹 애플리케이션입니다. 모든 변환 작업이 서버 전송 없이 **사용자의 브라우저 내에서 안전하게(Client-side)** 처리됩니다.
